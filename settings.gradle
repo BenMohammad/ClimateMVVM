@@ -1,0 +1,2 @@
+rootProject.name='ClimateMVVM'
+include ':app'
