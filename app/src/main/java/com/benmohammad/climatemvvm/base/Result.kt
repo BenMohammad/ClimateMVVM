@@ -4,7 +4,7 @@ import com.benmohammad.climatemvvm.custom.errors.ErrorHandler
 
 sealed class Result<out T : Any>
 
-class Success<out T : Any> : Result<T>()
+class Success<out T : Any>(val data: T) : Result<T>()
 
 class Error(
     val exception: Throwable,

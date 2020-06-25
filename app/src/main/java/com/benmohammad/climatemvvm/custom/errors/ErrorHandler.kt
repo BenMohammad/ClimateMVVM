@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.benmohammad.climatemvvm.WeatherApplication
 import com.benmohammad.climatemvvm.base.Error
 import com.benmohammad.climatemvvm.custom.views.IndefiniteSnackBar
+import okhttp3.ResponseBody
 import okhttp3.internal.http.RealResponseBody
 import org.json.JSONException
 import retrofit2.HttpException
@@ -56,7 +57,7 @@ object ErrorHandler {
         Toast.LENGTH_LONG
     ).show()
 
-    inline fun<reified T> parseError(responseBody: RealResponseBody?): T? {
+    inline fun<reified T> parseError(responseBody: ResponseBody?): T? {
         val parser = WeatherApplication.moshi.adapter(T::class.java)
         val response = responseBody?.string()
         if(response != null)

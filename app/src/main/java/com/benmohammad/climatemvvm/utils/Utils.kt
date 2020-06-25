@@ -45,7 +45,7 @@ object Utils {
         return StringKeyValuePair(key, System.currentTimeMillis().toString())
     }
 
-    fun gteBackOffDelay(attempt: Long) =  INITIAL_BACKOFF * (attempt + 1)
+    fun getBackOffDelay(attempt: Long) =  INITIAL_BACKOFF * (attempt + 1)
 
 
 }

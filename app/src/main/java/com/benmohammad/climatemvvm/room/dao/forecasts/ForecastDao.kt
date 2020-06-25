@@ -37,7 +37,7 @@ interface ForecastDao {
     suspend fun deleteAllForecastWeather()
 
     @Transaction
-    suspend fun deleteAllInsert(dbForecast: DbForecast) {
+    suspend fun deleteAllAndInsert(dbForecast: DbForecast) {
         Timber.i("DELETING & INSERTING DATA")
         deleteAll()
         deleteAllForecasts()
