@@ -25,31 +25,22 @@ class ForecastsRepository @Inject constructor(
     private val stringKeyValueDao: StringKeyValueDao
 ) {
 
-    private  val forecastCacheThresholdMillis = 3 * 300000L
-
+    private val forecastCacheThresholdMillis = 3 * 3600000L //3 hours//
 
     fun getForecasts(cityId: Int) = flow {
         stringKeyValueDao.get(Utils.LAST_FORECASTS_API_CALL_TIMESTAMP)
             ?.takeIf { !Utils.shouldCallApi(it.value, forecastCacheThresholdMillis) }
             ?.let { emit(getDataOrError(NoDataException())) }
-            ?: emit((getForecastFromApi(cityId)))
+            ?: emit((getForecastFromAPI(cityId)))
+    }
+        .applyCommonSideEffects()
+        .catch {
+            emit(getDataOrError(it))
+        }
 
-            }
-
-
-
-                  .catch{ emit(getDataOrError(it))
-
-                  }
-
-
-
-
-
-    private suspend fun  getForecastFromApi(cityId: Int) = openWeatherApi
-        .getWeatherForecast(cityId)
+    private suspend fun getForecastFromAPI(cityId: Int) = openWeatherApi.getWeatherForecast(cityId)
         .run {
-            if(isSuccessful && body() != null) {
+            if (isSuccessful && body() != null) {
                 stringKeyValueDao.insert(
                     Utils.getCurrentTimeKeyValuePair(Utils.LAST_FORECASTS_API_CALL_TIMESTAMP)
                 )
@@ -58,19 +49,19 @@ class ForecastsRepository @Inject constructor(
             } else {
                 Error(
                     NoResponseException(
-                        ErrorHandler.parseError<ErrorResponse>(errorBody())?.message))
+                        ErrorHandler.parseError<ErrorResponse>(errorBody())?.message
+                    )
+                )
             }
         }
 
     private suspend fun getDataOrError(throwable: Throwable) =
         forecastDao.get()
-        ?.let { dbValue -> Success(getForecastList(dbValue)) }
-        ?: Error(throwable)
-
+            ?.let { dbValue -> Success(getForecastList(dbValue)) }
+            ?: Error(throwable)
 
     private suspend fun getForecastList(dbForecast: DbForecast) = withContext(Dispatchers.Default) {
         dbForecast.list.map { it.forecast }
-
     }
 }
 

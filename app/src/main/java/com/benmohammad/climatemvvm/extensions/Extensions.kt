@@ -15,6 +15,9 @@ import okhttp3.Request
 import retrofit2.Retrofit
 import java.io.IOException
 
+
+
+
 fun String.capitalizeWords(): String = this.split(' ').joinToString(" "){it.capitalize()}
 
 @PublishedApi
@@ -26,14 +29,10 @@ internal inline fun Retrofit.Builder.callFactory(crossinline body: (Request) -> 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Retrofit.Builder.delegatingCallFactory(delegate: dagger.Lazy<OkHttpClient>): Retrofit.Builder =
     callFactory {
-        delegate.get().newCall(it)
-    }
+        delegate.get().newCall(it) }
 
-
-
-fun <T : Any> Flow<Result<T>>.applyCommonSideEffects() =
-
-    retryWhen { cause, attempt ->
+fun < T: Any> Flow<Result<T>>.applyCommonSideEffects() =
+    retryWhen {  cause, attempt ->
         when {
             (cause is IOException && attempt < Utils.MAX_RETRIES) -> {
                 delay(Utils.getBackOffDelay(attempt))
@@ -44,8 +43,11 @@ fun <T : Any> Flow<Result<T>>.applyCommonSideEffects() =
             }
         }
     }
-    .onStart { emit(Progress(isLoading = true)) }
-    .onCompletion { emit(Progress(isLoading = false)) }
+        .onStart { emit(Progress(isLoading = true)) }
+        .onCompletion { emit(Progress(isLoading = false)) }
+
+
+
 
     fun Job?.cancelIfActive() {
         if(this?.isActive == true) {

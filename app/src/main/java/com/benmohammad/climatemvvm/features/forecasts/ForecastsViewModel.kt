@@ -21,14 +21,17 @@ class ForecastsViewModel @Inject constructor(private val forecastsRepository: Fo
 
     val forecastLiveData = mutableForecastLiveData
 
-//    fun getForecasts() {
-//        getForecastsJob.cancelIfActive()
-//        getForecastsJob = viewModelScope.launch {
-//
-//            forecastsRepository.getForecasts(Utils.LONDON_CITY_ID).collect {
-//                mutableForecastLiveData.value = it
-//            }
-//
-//        }
+    fun getForecasts() {
+        getForecastsJob.cancelIfActive()
+        getForecastsJob = viewModelScope.launch {
 
+            forecastsRepository.getForecasts(Utils.LONDON_CITY_ID).collect {
+
+                mutableForecastLiveData.value = it as ForecastResults
+            }
+
+
+        }
+
+}
 }
