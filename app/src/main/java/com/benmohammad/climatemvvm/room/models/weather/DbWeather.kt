@@ -1,7 +1,6 @@
 package com.benmohammad.climatemvvm.room.models.weather
 
 import androidx.room.*
-import com.benmohammad.climatemvvm.room.models.forecasts.*
 
 data class DbWeather(
     @Embedded
@@ -47,6 +46,12 @@ data class Weather(
     val weatherDataId: Int
 )
 
+@Entity(primaryKeys = ["lon", "lat"])
+data class Coord(
+    val lon: Double,
+    val lat: Double
+)
+
 @Entity(primaryKeys = ["temp", "pressure", "humidity", "tempMin", "tempMax"])
 data class Main(
     val temp: Double,
@@ -66,6 +71,8 @@ data class Sys(
     val sunrise: Long,
     val sunset: Long
 )
+
+
 
 @Entity
 data class Clouds(

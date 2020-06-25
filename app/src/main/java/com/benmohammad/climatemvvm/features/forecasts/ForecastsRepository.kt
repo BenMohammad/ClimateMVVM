@@ -1,5 +1,6 @@
 package com.benmohammad.climatemvvm.features.forecasts
 
+import com.benmohammad.climatemvvm.extensions.applyCommonSideEffects
 import com.benmohammad.climatemvvm.base.Success
 import com.benmohammad.climatemvvm.custom.errors.ErrorHandler
 import com.benmohammad.climatemvvm.custom.errors.NoDataException
@@ -13,7 +14,6 @@ import com.benmohammad.climatemvvm.room.dao.utils.StringKeyValueDao
 import com.benmohammad.climatemvvm.room.models.forecasts.DbForecast
 import com.benmohammad.climatemvvm.utils.Utils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,10 +33,7 @@ class ForecastsRepository @Inject constructor(
             ?.let { emit(getDataOrError(NoDataException())) }
             ?: emit((getForecastFromAPI(cityId)))
     }
-        .applyCommonSideEffects()
-        .catch {
-            emit(getDataOrError(it))
-        }
+
 
     private suspend fun getForecastFromAPI(cityId: Int) = openWeatherApi.getWeatherForecast(cityId)
         .run {
