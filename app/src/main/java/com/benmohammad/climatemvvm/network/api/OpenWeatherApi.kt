@@ -13,7 +13,7 @@ interface OpenWeatherApi {
 
     @WorkerThread
     @GET("data/2.5/weather")
-    suspend fun getWeatherFromCity(
+    suspend fun getWeatherFromCityName(
         @Query("q") cityName: String,
         @Query("APPID") apiKey: String = Utils.OPEN_WEATHER_MAPS_API_KEY,
         @Query("units") units:  String = Utils.DEFAULT_UNIT_SYSTEM

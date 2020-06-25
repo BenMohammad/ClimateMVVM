@@ -14,8 +14,8 @@ object IndefiniteSnackBar {
                 show()
             }
         }
-        fun hide() {
-            snackbar?.dismiss()
-        }
+    }
+    fun hide() {
+        snackbar?.dismiss()
     }
 }
