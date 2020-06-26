@@ -57,7 +57,7 @@ data class Main(
     val temp: Double,
     val pressure: Double,
     val humidity: Int,
-    val tempMIn: Double,
+    val tempMin: Double,
     val tempMax: Double
 )
 

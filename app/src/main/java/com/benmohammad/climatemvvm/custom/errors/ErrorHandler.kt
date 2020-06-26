@@ -25,7 +25,7 @@ object ErrorHandler {
         view: View,
         throwable: Error,
         shouldToast: Boolean = false,
-        shouldShowSnackBar: Boolean,
+        shouldShowSnackBar: Boolean = false,
         refreshAction: () -> Unit = {}
         ) {
 
