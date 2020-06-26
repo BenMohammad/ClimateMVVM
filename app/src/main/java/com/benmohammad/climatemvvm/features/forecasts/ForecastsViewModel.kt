@@ -3,9 +3,11 @@ package com.benmohammad.climatemvvm.features.forecasts
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.benmohammad.climatemvvm.base.Result
 import com.benmohammad.climatemvvm.custom.aliases.ForecastResults
 import com.benmohammad.climatemvvm.extensions.cancelIfActive
 import com.benmohammad.climatemvvm.features.home.di.HomeScope
+import com.benmohammad.climatemvvm.room.models.forecasts.DbForecast
 import com.benmohammad.climatemvvm.utils.Utils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -24,14 +26,9 @@ class ForecastsViewModel @Inject constructor(private val forecastsRepository: Fo
     fun getForecasts() {
         getForecastsJob.cancelIfActive()
         getForecastsJob = viewModelScope.launch {
-
             forecastsRepository.getForecasts(Utils.LONDON_CITY_ID).collect {
-
                 mutableForecastLiveData.value = it as ForecastResults
             }
-
-
         }
-
-}
+    }
 }

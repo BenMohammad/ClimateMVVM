@@ -32,7 +32,7 @@ inline fun Retrofit.Builder.delegatingCallFactory(delegate: dagger.Lazy<OkHttpCl
         delegate.get().newCall(it) }
 
 fun <T: Any> Flow<Result<T>>.applyCommonSideEffects() =
-    retryWhen {  cause, attempt ->
+    retryWhen { cause, attempt ->
         when {
             (cause is IOException && attempt < Utils.MAX_RETRIES) -> {
                 delay(Utils.getBackOffDelay(attempt))

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.benmohammad.climatemvvm.custom.aliases.WeatherResult
 import com.benmohammad.climatemvvm.extensions.cancelIfActive
 import com.benmohammad.climatemvvm.features.home.di.HomeScope
+import com.benmohammad.climatemvvm.room.models.weather.DbWeather
 import com.benmohammad.climatemvvm.utils.Utils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -24,7 +25,7 @@ class WeatherViewModel @Inject constructor(private val weatherRepository: Weathe
 //    private val mutableWeatherData = MutableLiveData<DbWeather>()
 //
 //    val weatherData = mutableWeatherData
-
+//
 //    init{
 //        viewModelScope.launch {
 //            WeatherRepository.getWeather(Utils.LONDON_CITY).collect {
