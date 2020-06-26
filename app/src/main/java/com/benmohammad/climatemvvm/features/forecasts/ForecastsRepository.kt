@@ -32,13 +32,13 @@ class ForecastsRepository @Inject constructor(
 
     private val forecastCacheThresholdMillis = 3 * 3600000L //3 hours//
 
-    fun getForecasts(cityId: Int): Flow<Any> = (flow {
+    fun getForecasts(cityId: Int) = (flow {
         stringKeyValueDao.get(Utils.LAST_FORECASTS_API_CALL_TIMESTAMP)
             ?.takeIf { !Utils.shouldCallApi(it.value, forecastCacheThresholdMillis) }
             ?.let { emit((getDataOrError(NoDataException()))) }
             ?: emit((getForecastFromAPI(cityId)))
     } as Flow<Result<Any>>).applyCommonSideEffects()
-        .catch{ emit(getDataOrError(it) as Result<Any>)}
+
 
 
     private suspend fun getForecastFromAPI(cityId: Int) = openWeatherApi.getWeatherForecast(cityId)

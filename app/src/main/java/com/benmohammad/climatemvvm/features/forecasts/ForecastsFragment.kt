@@ -46,7 +46,7 @@ class ForecastsFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         (activity as HomeActivity).title = getString(R.string.forecast, Utils.LONDON_CITY)
-        //(activity as HomeActivity).homeComponent?.inject(this)
+        (activity as HomeActivity).homeComponent?.inject(this)
         forecastsViewModel.forecastLiveData.observe(viewLifecycleOwner, observer)
         getForecasts()
         super.onActivityCreated(savedInstanceState)
